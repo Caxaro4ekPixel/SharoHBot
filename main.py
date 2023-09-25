@@ -4,7 +4,7 @@ from decouple import config
 bot = Bot(token=config('BOT_TOKEN'))
 dp = Dispatcher(bot=bot)
 
-admin_chat_id = int(config('ADMIN_CHAT_ID_TEMP'))
+admin_chat_id = int(config('ADMIN_CHAT_ID'))
 
 
 @dp.message_handler(commands=['start'])
