@@ -1,5 +1,8 @@
 from aiogram import Bot, Dispatcher, types, executor
 from decouple import config
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=config('BOT_TOKEN'))
 dp = Dispatcher(bot=bot)
@@ -9,10 +12,12 @@ admin_chat_id = int(config('ADMIN_CHAT_ID'))
 
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
+    logging.info(f"Пользователь {message.from_user.id} запустил бота")
     await message.reply("Привет! Отправь мне контент и я перешлю его Шарону для участия в рубрике!")
 
 
 async def who_sent(message: types.Message):
+    logging.info(f"Пользователь {message.from_user.id} отправил контент")
     await bot.send_message(chat_id=admin_chat_id,
                            text=f"=Контент отправил=\nusername: @{message.chat.username}\nИмя: {message.chat.full_name}\nID: {message.from_user.id}")
     await bot.send_message(chat_id=admin_chat_id, text="=========================")
