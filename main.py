@@ -64,6 +64,10 @@ async def send_one_media(message: types.Message):
         await bot.send_document(chat_id=admin_chat_id, document=message.document.file_id)
         await who_sent(message)
         await message.reply("Документ отправлен! Огромное спасибо❤️")
+    elif message.content_type == types.ContentType.AUDIO:
+        await bot.send_audio(chat_id=admin_chat_id, audio=message.audio.file_id)
+        await who_sent(message)
+        await message.reply("Аудио отправлено! Огромное спасибо❤️")
     elif message.content_type == types.ContentType.TEXT:
         await bot.send_message(chat_id=admin_chat_id,
                                text=f"{message.text}\n\n=Контент отправил=\nusername: @{message.chat.username}\nИмя: {message.chat.full_name}\nID: {message.from_user.id}")
