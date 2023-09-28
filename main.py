@@ -73,6 +73,7 @@ async def send_one_media(message: types.Message):
 @dp.message_handler(filters.ChatTypeFilter(types.ChatType.PRIVATE))
 @dp.message_handler(content_types=types.ContentTypes.ANY)
 async def send_video(message: types.Message):
+    logging.info(f"Пользователь {message.from_user.id} отправил контент")
     if message.chat.id not in baned_users:
         if message.media_group_id is None:
             await send_one_media(message)
