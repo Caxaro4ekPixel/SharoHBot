@@ -6,7 +6,7 @@ from os import path
 
 logging.basicConfig(level=logging.INFO)
 
-admin_chat_id = int(config('ADMIN_CHAT_ID'))
+admin_chat_id = int(config('ADMIN_CHAT_ID_TEMP'))
 
 bot = Bot(token=config('BOT_TOKEN'))
 dp = Dispatcher(bot=bot)
@@ -38,7 +38,22 @@ async def ban_user(message: types.Message):
                 for user in baned_users:
                     f.write(str(user) + '\n')
             await message.reply("Пользователь забанен!")
-            await bot.send_message(chat_id=user_banned_id, text=f"Вы были заблокированны! Желаем удачи!")
+            await bot.send_message(chat_id=user_banned_id, text=f"Вы были заблокированы! Желаем удачи!")
+        else:
+            await message.reply("Введите id пользователя!")
+
+
+@dp.message_handler(commands=['unban'])
+async def ban_user(message: types.Message):
+    if message.chat.id == admin_chat_id:
+        if message.get_args().isdigit():
+            user_unbanned_id = int(message.get_args())
+            baned_users.remove(user_unbanned_id)
+            with open('baned_users', 'w') as f:
+                for user in baned_users:
+                    f.write(str(user) + '\n')
+            await message.reply("Пользователь разблокирован!")
+            await bot.send_message(chat_id=user_unbanned_id, text=f"Вы были разблокированы!")
         else:
             await message.reply("Введите id пользователя!")
 
