@@ -37,6 +37,9 @@ async def send_one_media(message: types.Message):
         await bot.send_document(chat_id=admin_chat_id, document=message.document.file_id)
         await who_sent(message)
         await message.reply("Документ отправлен! Огромное спасибо❤️")
+    elif message.content_type == types.ContentType.TEXT:
+        await bot.send_message(chat_id=admin_chat_id,text=f"{message.text}\n\n=Контент отправил=\nusername: @{message.chat.username}\nИмя: {message.chat.full_name}\nID: {message.from_user.id}")
+        await message.reply("Текст отправлен! Огромное спасибо❤️")
 
 
 @dp.message_handler(content_types=types.ContentTypes.ANY)
@@ -49,14 +52,6 @@ async def send_video(message: types.Message):
     else:
         await message.reply("Вы не можете отправлять файлы в этом чате! Это можно делать только в лс боту")
 
-
-@dp.message_handler(content_types=types.ContentTypes.TEXT)
-async def send_text(message: types.Message):
-    if message.chat.type != types.ChatType.PRIVATE:
-        await message.reply("Вы не можете отправлять текст в этом чате! Это можно делать только в лс боту")
-    else:
-        await bot.send_message(chat_id=admin_chat_id, text=f"{message.text}\n\n=Контент отправил=\nusername: @{message.chat.username}\nИмя: {message.chat.full_name}\nID: {message.from_user.id}")
-        await message.reply("Текст отправлен! Огромное спасибо❤️")
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
