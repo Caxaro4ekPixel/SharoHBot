@@ -6,7 +6,7 @@ from os import path
 
 logging.basicConfig(level=logging.INFO)
 
-admin_chat_id = int(config('ADMIN_CHAT_ID_TEMP'))
+admin_chat_id = int(config('ADMIN_CHAT_ID'))
 
 bot = Bot(token=config('BOT_TOKEN'))
 dp = Dispatcher(bot=bot)
